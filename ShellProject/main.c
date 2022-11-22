@@ -4,15 +4,26 @@ int main(int ac, char **argv) {
     char *prompt = "(Sheel Project) $ ";
     char *lineptr;
     size_t n = 0;
+    ssize_t nchars_read;
 
     // Declaring void variables
-    (void)ac;
-    (void)argv;
+    (void)ac; (void)argv;
 
-    printf("%s", prompt);
-    getline(&lineptr, &n, stdin);
-    printf("%s\n", lineptr);
+    // Create an infinite loop
+    while (1) {
+        printf("%s", prompt);
+        nchars_read = getline(&lineptr, &n, stdin);
+        // check if the getline function failed
+        if (nchars_read == -1) {
+            printf("Exiting shell...\n");
+            return (-1);
+        }
 
-    free(lineptr);
-    return 0;
+        printf("%s\n", lineptr);
+
+        // free up allocated memory
+        free(lineptr);
+    }
+
+    return (0);
 }
